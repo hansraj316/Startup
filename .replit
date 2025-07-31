@@ -1,6 +1,19 @@
 run = "Run"
+modules = ["nodejs-20"]
 [nix]
 channel = "stable-25_05"
 
 [deployment]
-run = ["sh", "-c", "Run"]
+run = ["sh", "-c", "cd figworks-ai && npm run build && npm run start"]
+
+[workflows]
+runButton = "Build & Dev"
+
+[[workflows.workflow]]
+name = "Build & Dev"
+author = 44794079
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd figworks-ai && npm run dev"
