@@ -18,6 +18,15 @@ mode = "sequential"
 task = "shell.exec"
 args = "cd figworks-ai && npm run dev"
 
+[[workflows.workflow]]
+name = "Build & Dev"
+author = 44794079
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd figworks-ai && npm run dev"
+
 [[ports]]
 localPort = 3000
 externalPort = 80
