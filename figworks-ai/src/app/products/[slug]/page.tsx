@@ -68,11 +68,7 @@ const products = {
 
 type ProductSlug = keyof typeof products
 
-interface Props {
-  params: { slug: string }
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const product = products[params.slug as ProductSlug]
   
   if (!product) {
@@ -87,7 +83,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function ProductDetail({ params }: Props) {
+export default function ProductDetail({ params }: any) {
   const product = products[params.slug as ProductSlug]
 
   if (!product) {
