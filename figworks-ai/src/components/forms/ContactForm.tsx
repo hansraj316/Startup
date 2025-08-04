@@ -3,7 +3,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
-import { validateEmail } from '@/lib/utils'
+import { validateEmail, sanitizeInput, validatePhoneNumber } from '@/lib/utils'
 
 interface FormData {
   name: string
@@ -27,6 +27,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Partial<FormData>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const services = [
     'AI Strategy Consulting',
@@ -58,6 +59,11 @@ export default function ContactForm() {
       newErrors.message = 'Message must be at least 10 characters long'
     }
 
+    // Validate phone number if provided
+    if (formData.phone.trim() && !validatePhoneNumber(formData.phone)) {
+      newErrors.phone = 'Please enter a valid phone number'
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -70,12 +76,17 @@ export default function ContactForm() {
     }
 
     setIsSubmitting(true)
+    setSubmitError(null)
     
     try {
       // Simulate form submission
       await new Promise(resolve => setTimeout(resolve, 1000))
       
-      console.log('Form submitted:', formData)
+      // Log only non-sensitive data in production
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Form submitted:', { ...formData, message: '[REDACTED]' })
+      }
+      
       setIsSubmitted(true)
       
       // Reset form
@@ -88,7 +99,8 @@ export default function ContactForm() {
         message: '',
       })
     } catch (error) {
-      console.error('Error submitting form:', error)
+      console.error('Error submitting form:', error instanceof Error ? error.message : 'Unknown error')
+      setSubmitError('Sorry, there was an error submitting your message. Please try again or contact us directly.')
     } finally {
       setIsSubmitting(false)
     }
@@ -96,7 +108,13 @@ export default function ContactForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    
+    // Sanitize input to prevent XSS attacks
+    const sanitizedValue = ['name', 'company', 'message'].includes(name) 
+      ? sanitizeInput(value) 
+      : value
+    
+    setFormData(prev => ({ ...prev, [name]: sanitizedValue }))
     
     // Clear error when user starts typing
     if (errors[name as keyof FormData]) {
@@ -188,9 +206,12 @@ export default function ContactForm() {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue"
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue ${
+              errors.phone ? 'border-red-500' : 'border-gray-300'
+            }`}
             placeholder="+1 (555) 123-4567"
           />
+          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
         </div>
       </div>
 
@@ -231,6 +252,12 @@ export default function ContactForm() {
         />
         {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
       </div>
+
+      {submitError && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+          {submitError}
+        </div>
+      )}
 
       <Button
         type="submit"
