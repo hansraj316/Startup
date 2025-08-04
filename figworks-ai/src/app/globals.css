@@ -20,13 +20,9 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
 }
 
 @layer components {
@@ -43,11 +39,11 @@ body {
   }
 }
 
+/* Dark mode support - using defined color variables */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+  body {
+    color: #f9fafb;
+    background-color: #111827;
   }
 }
 

@@ -26,6 +26,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       lg: 'px-8 py-4 text-lg'
     }
 
+    // TODO: Implement asChild prop functionality if needed for polymorphic components
+    if (asChild) {
+      console.warn('asChild prop is not yet implemented in Button component')
+    }
+
     return (
       <button
         className={cn(baseClasses, variants[variant], sizes[size], className)}
