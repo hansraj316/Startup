@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FIGWORKS.AI — Website
 
-## Getting Started
+[![Indian Avengers](https://img.shields.io/badge/Managed%20By-Indian%20Avengers-orange?style=flat-square&logo=gitbook)](https://github.com/hansraj316/mission-control-openclaw)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org)
 
-First, run the development server:
+> Marketing website for FIGWORKS.AI — an AI technology company website targeting C-level decision-makers, product managers, and investors.
+
+## Goals
+
+- Professional digital presence converting visitors to leads
+- Lighthouse score > 95, page load < 2s, WCAG 2.1 AA
+- Contact form conversion > 3%
+
+## Tech Stack
+
+- **Framework**: Next.js (App Router)
+- **Styling**: Tailwind CSS
+- **Deploy**: Vercel
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# → http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Roadmap
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [ ] Connect contact form to email/CRM
+- [ ] Add product/services pages
+- [ ] SEO: structured data, meta tags, sitemap
+- [ ] Analytics: Vercel Analytics
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Full PRD
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [`../README.md`](../README.md) for the complete Product Requirements Document.
