@@ -1,0 +1,64 @@
+name: Post-merge hardening task
+about: Track one concrete defect found during post-merge smoke testing
+title: "[Hardening] <short defect summary>"
+labels:
+  - bug
+  - hardening
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Keep this issue scoped to a single defect so fixes can be parallelized and closed independently.
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include deterministic steps.
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser/device/OS/build where defect is seen
+      placeholder: e.g., Chrome 135 on macOS 15.4, mobile Safari iOS 19
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or logs
+      description: Add links or pasted logs/screenshots for repro proof.
+
+  - type: checkboxes
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      options:
+        - label: Root cause identified and documented
+        - label: Fix merged to main
+        - label: CI checks green on merge commit
+        - label: Regression check completed for impacted flow
