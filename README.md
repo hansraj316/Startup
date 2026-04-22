@@ -19,3 +19,8 @@ See [figworks-ai PRD](docs/) for the full requirements covering hero section, pr
 ## License
 
 MIT
+
+
+## Daily TPM delivery update (2026-04-22)
+- Functional: Build investor update generator from weekly KPI inputs and milestone status
+- Non-functional: Introduce baseline observability stack templates for new services
