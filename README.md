@@ -24,3 +24,13 @@ MIT
 ## Daily TPM delivery update (2026-04-22)
 - Functional: Build investor update generator from weekly KPI inputs and milestone status
 - Non-functional: Introduce baseline observability stack templates for new services
+
+## Contact lead capture setup
+
+Set `CONTACT_WEBHOOK_URL` in your deployment environment to receive contact form submissions (Zapier/Make/CRM webhook endpoint).
+
+Example:
+
+```bash
+CONTACT_WEBHOOK_URL="https://hooks.zapier.com/hooks/catch/xxxx/yyyy"
+```

@@ -12,6 +12,7 @@ interface FormData {
   phone: string
   service: string
   message: string
+  website: string
 }
 
 export default function ContactForm() {
@@ -22,11 +23,13 @@ export default function ContactForm() {
     phone: '',
     service: '',
     message: '',
+    website: '',
   })
   
   const [errors, setErrors] = useState<Partial<FormData>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const services = [
     'AI Strategy Consulting',
@@ -70,12 +73,23 @@ export default function ContactForm() {
     }
 
     setIsSubmitting(true)
+    setSubmitError(null)
     
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      console.log('Form submitted:', formData)
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Unable to submit message')
+      }
+
       setIsSubmitted(true)
       
       // Reset form
@@ -86,9 +100,11 @@ export default function ContactForm() {
         phone: '',
         service: '',
         message: '',
+        website: '',
       })
     } catch (error) {
-      console.error('Error submitting form:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Something went wrong, please try again.'
+      setSubmitError(errorMessage)
     } finally {
       setIsSubmitting(false)
     }
@@ -126,6 +142,19 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={formData.website}
+          onChange={handleChange}
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -240,6 +269,10 @@ export default function ContactForm() {
       >
         {isSubmitting ? 'Sending...' : 'Send Message'}
       </Button>
+
+      {submitError && (
+        <p className="text-sm text-red-600 text-center">{submitError}</p>
+      )}
 
       <p className="text-sm text-gray-600 text-center">
         We'll respond to your inquiry within 24 hours. For urgent matters, call us at{' '}
