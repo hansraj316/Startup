@@ -21,13 +21,29 @@
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run dev
 # → http://localhost:3000
 ```
 
+### Contact lead capture setup
+
+Set these variables in `.env.local`:
+
+- `LEAD_WEBHOOK_URL`: webhook endpoint for durable lead capture (Zapier/Make/CRM)
+- `NEXT_PUBLIC_CONTACT_ANALYTICS_ENABLED`: set to `true` to emit contact conversion events in client logs
+
+The contact form posts to `POST /api/contact`, validates fields server-side, blocks honeypot spam, and applies basic rate limits.
+
+### Tests
+
+```bash
+npm run test
+```
+
 ## Roadmap
 
-- [ ] Connect contact form to email/CRM
+- [x] Connect contact form to webhook/CRM endpoint
 - [ ] Add product/services pages
 - [ ] SEO: structured data, meta tags, sitemap
 - [ ] Analytics: Vercel Analytics

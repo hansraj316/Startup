@@ -1,9 +1,10 @@
 
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { validateEmail } from '@/lib/utils'
+import { trackContactEvent } from '@/lib/analytics'
 
 interface FormData {
   name: string
@@ -12,6 +13,7 @@ interface FormData {
   phone: string
   service: string
   message: string
+  website: string
 }
 
 export default function ContactForm() {
@@ -22,11 +24,13 @@ export default function ContactForm() {
     phone: '',
     service: '',
     message: '',
+    website: '',
   })
   
   const [errors, setErrors] = useState<Partial<FormData>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const services = [
     'AI Strategy Consulting',
@@ -66,17 +70,30 @@ export default function ContactForm() {
     e.preventDefault()
     
     if (!validateForm()) {
+      trackContactEvent('contact_form_error', { type: 'client_validation' })
       return
     }
 
     setIsSubmitting(true)
+    setSubmitError(null)
+    trackContactEvent('contact_form_submit')
     
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      console.log('Form submitted:', formData)
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+      if (!response.ok) {
+        throw new Error(result?.error || 'Unable to submit form')
+      }
+
       setIsSubmitted(true)
+      trackContactEvent('contact_form_success')
       
       // Reset form
       setFormData({
@@ -86,9 +103,12 @@ export default function ContactForm() {
         phone: '',
         service: '',
         message: '',
+        website: '',
       })
-    } catch (error) {
-      console.error('Error submitting form:', error)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unable to submit form right now'
+      setSubmitError(message)
+      trackContactEvent('contact_form_error', { type: 'api_error', message })
     } finally {
       setIsSubmitting(false)
     }
@@ -103,6 +123,10 @@ export default function ContactForm() {
       setErrors(prev => ({ ...prev, [name]: undefined }))
     }
   }
+
+  useEffect(() => {
+    trackContactEvent('contact_form_view')
+  }, [])
 
   if (isSubmitted) {
     return (
@@ -215,6 +239,20 @@ export default function ContactForm() {
       </div>
 
       <div>
+        <label htmlFor="website" className="sr-only">
+          Website
+        </label>
+        <input
+          type="text"
+          id="website"
+          name="website"
+          value={formData.website}
+          onChange={handleChange}
+          className="hidden"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+
         <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
           Message *
         </label>
@@ -240,6 +278,8 @@ export default function ContactForm() {
       >
         {isSubmitting ? 'Sending...' : 'Send Message'}
       </Button>
+
+      {submitError && <p className="text-red-600 text-sm text-center">{submitError}</p>}
 
       <p className="text-sm text-gray-600 text-center">
         We'll respond to your inquiry within 24 hours. For urgent matters, call us at{' '}
