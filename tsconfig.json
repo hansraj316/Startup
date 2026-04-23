@@ -24,6 +24,7 @@
     ],
     "paths": {
       "@/*": [
+        "./figworks-ai/src/*",
         "./src/*"
       ]
     }
