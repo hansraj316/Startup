@@ -16,6 +16,10 @@ Marketing website for FIGWORKS.AI — a modern Next.js site for an AI technology
 
 See [figworks-ai PRD](docs/) for the full requirements covering hero section, product catalog, global shipping, performance targets (Lighthouse > 95), and contact conversion goals.
 
+## Commercial Offer
+
+See [Startup paid offer](docs/offer.md) for ICP, tiered pricing, scope boundaries, and delivery SLAs.
+
 ## License
 
 MIT
