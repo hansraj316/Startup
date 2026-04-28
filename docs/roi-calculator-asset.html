@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cost-per-Task ROI Calculator</title>
+  <style>body{font-family:system-ui;max-width:760px;margin:24px auto;padding:0 12px}label{display:block;margin:10px 0 4px}input{width:100%;padding:8px}button{margin-top:14px;padding:10px 14px}pre{background:#f6f8fa;padding:12px;overflow:auto}</style>
+</head>
+<body>
+  <h1>OpenCode V4 vs Us ROI Calculator</h1>
+  <label>Tasks / month</label><input id="tasks" type="number" value="40" />
+  <label>OpenCode V4 cost / task ($)</label><input id="v4" type="number" value="120" />
+  <label>Our cost / task ($)</label><input id="ours" type="number" value="45" />
+  <label>Hours saved / task</label><input id="hours" type="number" step="0.1" value="1.5" />
+  <label>Team hourly rate ($)</label><input id="rate" type="number" value="90" />
+  <button onclick="calc()">Calculate ROI</button>
+  <pre id="out"></pre>
+  <script>
+    function money(n){return '$'+Math.round(n).toLocaleString()}
+    function calc(){
+      const t=+tasks.value,v=+v4.value,o=+ours.value,h=+hours.value,r=+rate.value
+      const direct=t*(v-o), time=t*h*r, total=direct+time
+      out.textContent=[
+        `Direct cost savings: ${money(direct)}/month`,
+        `Time value unlocked: ${money(time)}/month`,
+        `Total monthly upside: ${money(total)}/month`,
+        '',
+        'Formula:',
+        'Monthly ROI = (Tasks × (OpenCodeV4Cost - OurCost)) + (Tasks × HoursSaved × HourlyRate)'
+      ].join('\n')
+    }
+    calc()
+  </script>
+</body>
+</html>

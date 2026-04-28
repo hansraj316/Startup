@@ -1,0 +1,7 @@
+tasks_per_month,opencode_v4_cost_per_task,our_cost_per_task,hours_saved_per_task,team_hourly_rate,direct_cost_savings,time_value_unlocked,total_monthly_upside
+40,120,45,1.5,90,3000,5400,8400
+
+# formulas (spreadsheet)
+# direct_cost_savings = tasks_per_month * (opencode_v4_cost_per_task - our_cost_per_task)
+# time_value_unlocked = tasks_per_month * hours_saved_per_task * team_hourly_rate
+# total_monthly_upside = direct_cost_savings + time_value_unlocked
