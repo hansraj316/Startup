@@ -31,6 +31,21 @@ export default function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
+  const fallbackEmailHref = `mailto:hello@figworks.ai?subject=${encodeURIComponent(
+    `New inquiry from ${formData.name || 'Website visitor'}`
+  )}&body=${encodeURIComponent(
+    [
+      `Name: ${formData.name || 'N/A'}`,
+      `Email: ${formData.email || 'N/A'}`,
+      `Company: ${formData.company || 'N/A'}`,
+      `Phone: ${formData.phone || 'N/A'}`,
+      `Service: ${formData.service || 'N/A'}`,
+      '',
+      'Project details:',
+      formData.message || 'N/A',
+    ].join('\n')
+  )}`
+
   const services = [
     'AI Strategy Consulting',
     'Custom AI Development',
@@ -271,7 +286,18 @@ export default function ContactForm() {
       </Button>
 
       {submitError && (
-        <p className="text-sm text-red-600 text-center">{submitError}</p>
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-center space-y-2">
+          <p className="text-sm text-red-700">{submitError}</p>
+          <p className="text-sm text-red-700">
+            Fast fallback: email us directly and keep your draft prefilled.
+          </p>
+          <a
+            href={fallbackEmailHref}
+            className="inline-flex items-center justify-center rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+          >
+            Email hello@figworks.ai now
+          </a>
+        </div>
       )}
 
       <p className="text-sm text-gray-600 text-center">
