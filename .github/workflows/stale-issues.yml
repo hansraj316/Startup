@@ -1,0 +1,58 @@
+name: Stale issue hygiene
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  remediate-stale-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Flag issues older than 7 days
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const days = 7;
+            const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              per_page: 100,
+            });
+
+            const targets = issues.filter((issue) => {
+              if (issue.pull_request) return false;
+              return new Date(issue.created_at) < cutoff;
+            });
+
+            core.info(`Found ${targets.length} open issues older than ${days} days.`);
+
+            for (const issue of targets) {
+              const labels = (issue.labels || []).map((l) => typeof l === 'string' ? l : l.name);
+              if (!labels.includes('stale')) {
+                await github.rest.issues.addLabels({
+                  owner,
+                  repo,
+                  issue_number: issue.number,
+                  labels: ['stale'],
+                });
+              }
+
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: issue.number,
+                body: [
+                  'Automated hygiene check: this issue has been open for more than 7 days.',
+                  'Please provide an update, assign an owner, or close it if no longer relevant.'
+                ].join('\n\n'),
+              });
+            }
