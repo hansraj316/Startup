@@ -87,12 +87,15 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>
-                <Link href="/contact">Get Started Today</Link>
+                <Link href="/contact">Book a 15-Min Strategy Call</Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
                 <Link href="/products">Explore Products</Link>
               </Button>
             </div>
+            <p className="mt-4 text-sm text-gray-500">
+              No commitment, roadmap in one call, response within 24 hours.
+            </p>
           </div>
         </div>
       </section>
