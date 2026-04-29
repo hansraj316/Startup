@@ -22,7 +22,7 @@ See [Startup paid offer](docs/offer.md) for ICP, tiered pricing, scope boundarie
 
 ## License
 
-MIT
+[MIT](LICENSE)
 
 
 ## Daily TPM delivery update (2026-04-22)
