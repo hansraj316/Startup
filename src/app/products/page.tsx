@@ -133,9 +133,14 @@ export default function Products() {
             <p className="text-xl text-gray-600 mb-8">
               Discover our comprehensive suite of AI-powered products designed to transform your business operations and drive growth.
             </p>
-            <Button size="lg" asChild>
-              <Link href="/contact">Request Demo</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Button size="lg" asChild>
+                <Link href="/contact">Request Demo</Link>
+              </Button>
+              <Button variant="outline" size="lg" asChild>
+                <Link href="/products/deepseek-v4-comparison">View DeepSeek V4 Benchmark</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
