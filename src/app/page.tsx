@@ -198,6 +198,17 @@ export default function Home() {
       </section>
 
       <Footer />
+
+      <div className="fixed bottom-0 inset-x-0 z-50 border-t bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 md:hidden">
+        <div className="container py-3 flex gap-3">
+          <Button size="lg" className="flex-1" asChild>
+            <Link href="/contact">Get Free AI Growth Plan</Link>
+          </Button>
+          <Button size="lg" variant="outline" className="flex-1" asChild>
+            <Link href="mailto:hello@figworks.ai?subject=Book%20an%20AI%20demo">Email Sales</Link>
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
