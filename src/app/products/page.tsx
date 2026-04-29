@@ -140,6 +140,22 @@ export default function Products() {
         </div>
       </section>
 
+      {/* Featured MVP */}
+      <section className="py-10 bg-white">
+        <div className="container">
+          <div className="rounded-2xl border border-brand-blue/20 bg-blue-50 p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-brand-blue uppercase">New MVP</p>
+              <h2 className="text-2xl font-bold text-gray-900">X Signal to Lead</h2>
+              <p className="text-gray-600">Trend detection plus auto-DM draft workflow with pricing tests from $29 to $99/mo.</p>
+            </div>
+            <Button asChild>
+              <Link href="/products/x-signal-leads">Open MVP</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Category Filter */}
       <section className="py-8 bg-white border-b">
         <div className="container">
